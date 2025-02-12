@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./webpage-analyzer-backend
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT:-8080}:${PORT:-8080}"
+    env_file:
+      - ./webpage-analyzer-backend/.env
+    environment:
+      - GIN_MODE=release
+      - PORT=${PORT:-8080}
+      - ALLOWED_ORIGINS=http://frontend:${FRONTEND_PORT:-3000}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT:-8080}/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    build:
+      context: ./webpage-analyzer-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}"
+    env_file:
+      - ./webpage-analyzer-frontend/.env
+    environment:
+      - PORT=${FRONTEND_PORT:-3000}
+      - NEXT_PUBLIC_API_URL=http://backend:${PORT:-8080}
+    depends_on:
+      - backend
+    restart: unless-stopped
