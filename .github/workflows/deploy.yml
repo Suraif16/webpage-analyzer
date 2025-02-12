@@ -17,5 +17,5 @@ jobs:
         app-name: 'webpage-analyzer'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         images: |
-          Suraif16/webpage-analyzer-frontend:${{ github.sha }}
-          Suraif16/webpage-analyzer-backend:${{ github.sha }}
+          suraif16/webpage-analyzer-frontend:${{ github.sha }}
+          suraif16/webpage-analyzer-backend:${{ github.sha }}
