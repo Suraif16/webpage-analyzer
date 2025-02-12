@@ -2,9 +2,7 @@ version: "3.8"
 
 services:
   backend:
-    build:
-      context: ./webpage-analyzer-backend
-      dockerfile: Dockerfile
+    image: suraif16/webpage-analyzer-backend:v1
     ports:
       - "${PORT:-8080}:${PORT:-8080}"
     env_file:
@@ -21,9 +19,7 @@ services:
       retries: 3
 
   frontend:
-    build:
-      context: ./webpage-analyzer-frontend
-      dockerfile: Dockerfile
+    image: suraif16/webpage-analyzer-frontend:v1
     ports:
       - "${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}"
     env_file:
